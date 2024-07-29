@@ -49,9 +49,10 @@ public partial class Server : Node
 	}
 
 	[Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	private void Ping(int playerId)
+	private void Ping()
 	{
 		GD.Print("PING");
+		long playerId = Multiplayer.GetRemoteSenderId();
 		RpcId(playerId, "Pong");
 	}
 

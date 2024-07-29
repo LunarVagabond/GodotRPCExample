@@ -36,8 +36,9 @@ func _peer_disconnected(id: int):
 	print("Peer disconnected with ID: %d" % id)
 
 @rpc("any_peer", "reliable")
-func Ping(player_id):
+func Ping():
 	print("PING")
+	var player_id = get_tree().get_multiplayer().get_remote_sender_id()
 	rpc_id(player_id, "Pong")
 
 # Note: Godot requires that the function definition for 'Pong' exists in the script

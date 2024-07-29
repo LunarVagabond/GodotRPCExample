@@ -1,3 +1,11 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
 config_version=5
 
 [application]
@@ -5,10 +13,10 @@ config_version=5
 config/name="DedicatedServerExample"
 config/description="A simple example for dedicated server. The goal is that a user could easily take the \"Server.{gd,cs}\", \"Client.{gd,cs}\" and \"Main.{gd,cs}\" and drop them into their game for a quick test envrionement to build off of!"
 config/version="0.0.1"
+config/tags=PackedStringArray("example")
 run/main_scene="res://Scenes/GameEntry.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://icon.svg"
-config/tags=PackedStringArray("example")
 
 [dotnet]
 

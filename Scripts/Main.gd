@@ -2,6 +2,7 @@ extends Node
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	print("Running GDScript Version")
 	# Check for command-line arguments to determine mode
 	var args = OS.get_cmdline_args()
 	var is_server = false

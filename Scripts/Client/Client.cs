@@ -67,7 +67,7 @@ public partial class Client : Node
 		GD.Print("Client disconnected from the server");
 	}
 
-	private void PingServer() => RpcId(SERVER_ID, nameof(Ping), GetTree().GetMultiplayer().GetUniqueId());
+	private void PingServer() => RpcId(SERVER_ID, nameof(Ping)); // GetTree().GetMultiplayer().GetUniqueId()) -> we can use this if we want to send the player id. But instead let the server handle pickup of the id
 
 	[Rpc(mode: MultiplayerApi.RpcMode.Authority, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	private void Pong() => GD.Print("PONG");
@@ -76,5 +76,5 @@ public partial class Client : Node
 	// to be able to handle the RPC call, even if it is not actively used.
 	// The 'Ping' function is a placeholder and does not perform any actions.
 	[Rpc(mode: MultiplayerApi.RpcMode.AnyPeer, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
-	private void Ping(int _playerId) {}
+	private void Ping() {}
 }

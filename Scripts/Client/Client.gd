@@ -50,7 +50,7 @@ func _server_disconnected():
 	print("Client disconnected from the server")
 
 func PingServer():
-	rpc_id(SERVER_ID, &"Ping", multiplayer.get_unique_id())
+	rpc_id(SERVER_ID, &"Ping") # multiplayer.get_unique_id()) -> could be used to pass the clients id to the server but instead we let the serve pick up the id
 
 @rpc("authority", "reliable") # Only the server can call this function
 func Pong():
@@ -61,5 +61,5 @@ func Pong():
 # The 'Ping' function is a placeholder and does not perform any actions.
 # (There must be a better way to do this but I don't have time for that)
 @rpc("any_peer", "reliable")
-func Ping(_player_id):
+func Ping():
 	return
