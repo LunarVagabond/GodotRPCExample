@@ -15,9 +15,13 @@ config/description="A simple example for dedicated server. The goal is that a us
 config/version="0.0.1"
 config/tags=PackedStringArray("example")
 run/main_scene="res://Scenes/GameEntry.tscn"
-config/features=PackedStringArray("4.2", "C#", "Forward Plus")
+config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [dotnet]
 
 project/assembly_name="TestingZong"
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true
