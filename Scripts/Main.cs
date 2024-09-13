@@ -3,6 +3,9 @@ using System;
 
 public partial class Main : Node
 {
+
+	[Export] Label TempHostClientDisplayLabel;
+
 	public override void _Ready()
 	{
 		GD.Print("Running C# Version");
@@ -10,11 +13,13 @@ public partial class Main : Node
 		var args = OS.GetCmdlineArgs();
 		GD.Print($"Command-line argument: {args}");
 		bool isServer = false;
+		TempHostClientDisplayLabel.Text = "Client";
 
 		foreach (string arg in args)
 		{
 			if (arg == "--server")
 			{
+				TempHostClientDisplayLabel.Text = "SERVER";
 				GD.Print("Is Server");
 				isServer = true;
 			}

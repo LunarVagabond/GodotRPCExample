@@ -3,9 +3,15 @@ using System;
 
 public partial class Server : Node
 {
+	private const string DEFAULT_ADDRESS = "127.0.0.1";  // Port number to start the server on
+	private const int DEFAULT_PORT = 9091;  // Port number to start the server on
+
 	private ENetMultiplayerPeer peer = new ENetMultiplayerPeer();
-	private int port = 9091;  // Port number to start the server on
+
 	private int maxPlayers = 100;  // Maximum number of players allowed to connect
+
+	public string selected_address;
+	public int selected_port;
 
 	public override void _Ready()
 	{
@@ -17,12 +23,12 @@ public partial class Server : Node
 	{
 		GD.Print("Running C# Server");
 		// Create the server with the specified port and max players
-		var result = peer.CreateServer(port, maxPlayers);
+		var result = peer.CreateServer(DEFAULT_PORT, maxPlayers);
 		if (result == Error.Ok)
 		{
 			// If server creation is successful, set the multiplayer peer to our ENet peer
 			Multiplayer.MultiplayerPeer = peer;
-			GD.Print($"Server started on port {port}");
+			GD.Print($"Server started on port {DEFAULT_PORT}");
 
 			// Connect the peer_connected signal to the _peer_connected function
 			peer.Connect("peer_connected", new Callable(this, nameof(PeerConnected)));

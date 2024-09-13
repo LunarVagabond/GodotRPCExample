@@ -37,6 +37,7 @@ public partial class Client : Node
 		{
 			// If client connection fails, print the error
 			GD.Print($"Failed to connect to server: {result}");
+			GetTree().Quit();
 		}
 	}
 
