@@ -9,7 +9,7 @@ public partial class Main : Node
 	public override void _Ready()
 	{
 		GD.Print("Running C# Version");
-		// Check for command-line arguments to determine mode
+		// Check for command-line arguments to determine run mode
 		var args = OS.GetCmdlineArgs();
 		GD.Print($"Command-line argument: {args}");
 		bool isServer = false;
