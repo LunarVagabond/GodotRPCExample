@@ -1,9 +1,20 @@
-[gd_scene load_steps=13 format=3 uid="uid://b871mc5djfeu7"]
+[gd_scene load_steps=14 format=3 uid="uid://b871mc5djfeu7"]
 
 [ext_resource type="Script" path="res://Entities/Player/Player.cs" id="1_fh2uo"]
 [ext_resource type="Texture2D" uid="uid://xb11ccs7r6qt" path="res://Assets/tilesets/Main Character - Male - Full spritesheet - No Guide.png" id="1_xqby4"]
 [ext_resource type="PackedScene" uid="uid://byg561jcq8jpu" path="res://Entities/Bullet/bullet.tscn" id="2_1xfie"]
 [ext_resource type="Texture2D" uid="uid://83423pun321q" path="res://Assets/tilesets/Famas.png" id="2_k8ohl"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_12cx6"]
+properties/0/path = NodePath("GunRotation:rotation")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:syncPosition")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:syncGunRotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5wrp6"]
 atlas = ExtResource("1_xqby4")
@@ -58,13 +69,20 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ri1n1"]
 size = Vector2(19, 24)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("GunRotationNode", "Node2DBulletSpawnNode")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("GunRotationNode", "Node2DBulletSpawnNode", "MPSyncNode", "PlayerNameLabel") groups=["Player"]]
 scale = Vector2(2.31977, 2.30445)
 collision_mask = 2
 script = ExtResource("1_fh2uo")
 GunRotationNode = NodePath("GunRotation")
 BulletScene = ExtResource("2_1xfie")
 Node2DBulletSpawnNode = NodePath("GunRotation/BulletSpawn")
+MPSyncNode = NodePath("MultiplayerSynchronizer")
+PlayerNameLabel = NodePath("Label")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.1
+delta_interval = 0.1
+replication_config = SubResource("SceneReplicationConfig_12cx6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
@@ -87,4 +105,11 @@ scale = Vector2(0.202438, 0.207155)
 texture = ExtResource("2_k8ohl")
 
 [node name="BulletSpawn" type="Node2D" parent="GunRotation"]
-position = Vector2(26, 0)
+position = Vector2(30.6065, -1.01829)
+
+[node name="Label" type="Label" parent="."]
+offset_left = -22.0
+offset_top = -48.0
+offset_right = 21.0
+offset_bottom = -25.0
+text = "Test"

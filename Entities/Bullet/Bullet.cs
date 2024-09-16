@@ -27,4 +27,6 @@ public partial class Bullet : CharacterBody2D
 		MoveAndSlide();
 	}
 
+	private void OnTimerTimerout() => QueueFree();
+
 }
