@@ -1,0 +1,90 @@
+[gd_scene load_steps=13 format=3 uid="uid://b871mc5djfeu7"]
+
+[ext_resource type="Script" path="res://Entities/Player/Player.cs" id="1_fh2uo"]
+[ext_resource type="Texture2D" uid="uid://xb11ccs7r6qt" path="res://Assets/tilesets/Main Character - Male - Full spritesheet - No Guide.png" id="1_xqby4"]
+[ext_resource type="PackedScene" uid="uid://byg561jcq8jpu" path="res://Entities/Bullet/bullet.tscn" id="2_1xfie"]
+[ext_resource type="Texture2D" uid="uid://83423pun321q" path="res://Assets/tilesets/Famas.png" id="2_k8ohl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wrp6"]
+atlas = ExtResource("1_xqby4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_stdo7"]
+atlas = ExtResource("1_xqby4")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dakjj"]
+atlas = ExtResource("1_xqby4")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8hrqn"]
+atlas = ExtResource("1_xqby4")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0nfwa"]
+atlas = ExtResource("1_xqby4")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rqhje"]
+atlas = ExtResource("1_xqby4")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n7x03"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5wrp6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_stdo7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dakjj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8hrqn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0nfwa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rqhje")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ri1n1"]
+size = Vector2(19, 24)
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("GunRotationNode", "Node2DBulletSpawnNode")]
+scale = Vector2(2.31977, 2.30445)
+collision_mask = 2
+script = ExtResource("1_fh2uo")
+GunRotationNode = NodePath("GunRotation")
+BulletScene = ExtResource("2_1xfie")
+Node2DBulletSpawnNode = NodePath("GunRotation/BulletSpawn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(5.96046e-08, -22)
+scale = Vector2(1.27344, 1.375)
+sprite_frames = SubResource("SpriteFrames_n7x03")
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -12)
+shape = SubResource("RectangleShape2D_ri1n1")
+
+[node name="GunRotation" type="Node2D" parent="."]
+position = Vector2(0, -12)
+
+[node name="Sprite2D" type="Sprite2D" parent="GunRotation"]
+texture_filter = 1
+position = Vector2(19, 0)
+scale = Vector2(0.202438, 0.207155)
+texture = ExtResource("2_k8ohl")
+
+[node name="BulletSpawn" type="Node2D" parent="GunRotation"]
+position = Vector2(26, 0)

@@ -1,0 +1,59 @@
+[gd_scene load_steps=2 format=3 uid="uid://o8dhcumrastr"]
+
+[ext_resource type="Script" path="res://Entities/Multiplayer/MultiplayerController.cs" id="1_t20f5"]
+
+[node name="MultiplayerController" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_t20f5")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="HostButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host Game
+"
+
+[node name="JoinGameButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Join Game
+"
+
+[node name="StartGameButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Start Game
+"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 213.0
+offset_bottom = 244.0
+grow_horizontal = 2
+theme_override_constants/separation = 25
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Playe Name"
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="button_down" from="CenterContainer/VBoxContainer/HostButton" to="." method="OnHostButtonPressed"]
+[connection signal="button_down" from="CenterContainer/VBoxContainer/JoinGameButton" to="." method="OnJoinButtonPressed"]
+[connection signal="button_down" from="CenterContainer/VBoxContainer/StartGameButton" to="." method="OnStartButtonPressed"]
