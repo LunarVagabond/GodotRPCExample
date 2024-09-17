@@ -5,7 +5,9 @@ using System.Linq;
 public partial class MultiplayerController : Control
 {
   [Export] private LineEdit PlayerNameNode;
-  private const int DEFAULT_PORT = 6091;
+  [Export] private Control ServerBrowserControl;
+
+  private const int DEFAULT_PORT = 8910;
   private const string DEFAULT_ADDRESS = "127.0.0.1";
   private const int MAX_CLIENTS = 4;
 
@@ -21,6 +23,8 @@ public partial class MultiplayerController : Control
     Multiplayer.ConnectionFailed += ConnectionFailed;
 
     if (OS.GetCmdlineArgs().Contains("--server")) { HostGame(); }
+
+    (ServerBrowserControl as ServerBrowser).JoinGame += JoinGame;
   }
 
   // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -38,6 +42,8 @@ public partial class MultiplayerController : Control
     peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
     Multiplayer.MultiplayerPeer = peer; // Connect the hosting player to the server as a player
     GD.Print("Waiting for Players...");
+
+    (ServerBrowserControl as ServerBrowser).SetupBroadcast(PlayerNameNode.Text + "'s Server");
   }
   
   #region Signal Functions
@@ -89,10 +95,12 @@ public partial class MultiplayerController : Control
     SendPlayerInfo(PlayerNameNode.Text, 1); // Send host info to everyone as well
   }
 
-  public void OnJoinButtonPressed()
+  public void OnJoinButtonPressed() => JoinGame(DEFAULT_ADDRESS);
+
+  private void JoinGame(string ip)
   {
     peer = new ENetMultiplayerPeer();
-    peer.CreateClient(DEFAULT_ADDRESS, DEFAULT_PORT);
+    peer.CreateClient(ip, DEFAULT_PORT);
     peer.Host.Compress(ENetConnection.CompressionMode.RangeCoder);
     Multiplayer.MultiplayerPeer = peer;
     GD.Print("Joining Game...");
@@ -106,6 +114,7 @@ public partial class MultiplayerController : Control
   [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
   private void StartGame()
   {
+    (ServerBrowserControl as ServerBrowser).CleanUp();
     foreach (PlayerInfo player in GameManager.Players)
     {
       GD.Print($"Player: {player.Name}");

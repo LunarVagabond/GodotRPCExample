@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://dp1rqlqoqhnh"]
+
+[ext_resource type="Script" path="res://Entities/Multiplayer/ServerBrowserInfoLine.cs" id="1_6e7td"]
+
+[node name="ServerInfo" type="HBoxContainer" node_paths=PackedStringArray("IPLabel")]
+script = ExtResource("1_6e7td")
+IPLabel = NodePath("IPLabel")
+
+[node name="NameLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Name"
+
+[node name="IPLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "IP"
+
+[node name="PlayerCountLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0/0"
+
+[node name="JoinButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Join
+"
+
+[connection signal="button_down" from="JoinButton" to="." method="JoinGameButtonDown"]

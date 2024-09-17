@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://o8dhcumrastr"]
+[gd_scene load_steps=4 format=3 uid="uid://o8dhcumrastr"]
 
 [ext_resource type="Script" path="res://Entities/Multiplayer/MultiplayerController.cs" id="1_t20f5"]
+[ext_resource type="Script" path="res://Entities/Multiplayer/ServerBrowser.cs" id="2_nbna6"]
+[ext_resource type="PackedScene" uid="uid://dp1rqlqoqhnh" path="res://Entities/Multiplayer/server_info.tscn" id="3_y073p"]
 
-[node name="MultiplayerController" type="Control" node_paths=PackedStringArray("PlayerNameNode")]
+[node name="MultiplayerController" type="Control" node_paths=PackedStringArray("PlayerNameNode", "ServerBrowserControl")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,51 +12,117 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_t20f5")
-PlayerNameNode = NodePath("HBoxContainer/LineEdit")
+PlayerNameNode = NodePath("Player Name/LineEdit")
+ServerBrowserControl = NodePath("ServerBrowser")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+[node name="Buttons" type="HBoxContainer" parent="."]
 layout_mode = 2
+offset_left = 374.0
+offset_top = 85.0
+offset_right = 701.0
+offset_bottom = 116.0
+theme_override_constants/separation = 25
 
-[node name="HostButton" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="HostButton" type="Button" parent="Buttons"]
 layout_mode = 2
 text = "Host Game
 "
 
-[node name="JoinGameButton" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="JoinGameButton" type="Button" parent="Buttons"]
 layout_mode = 2
 text = "Join Game
 "
 
-[node name="StartGameButton" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="StartGameButton" type="Button" parent="Buttons"]
 layout_mode = 2
 text = "Start Game
 "
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="Player Name" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_top = 213.0
-offset_bottom = 244.0
+offset_top = 36.0
+offset_bottom = 67.0
 grow_horizontal = 2
 theme_override_constants/separation = 25
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="Player Name"]
 layout_mode = 2
 text = "Playe Name"
 
-[node name="LineEdit" type="LineEdit" parent="HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="Player Name"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[connection signal="button_down" from="CenterContainer/VBoxContainer/HostButton" to="." method="OnHostButtonPressed"]
-[connection signal="button_down" from="CenterContainer/VBoxContainer/JoinGameButton" to="." method="OnJoinButtonPressed"]
-[connection signal="button_down" from="CenterContainer/VBoxContainer/StartGameButton" to="." method="OnStartButtonPressed"]
+[node name="ServerBrowser" type="Control" parent="." node_paths=PackedStringArray("BroadcastTimer", "ServerListVBox", "TEMP_LISTEN_LABEL")]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_nbna6")
+BroadcastTimer = NodePath("BroadcastTimer")
+ServerInfoScene = ExtResource("3_y073p")
+ServerListVBox = NodePath("Panel/LiveServersList")
+TEMP_LISTEN_LABEL = NodePath("TempListenLabel")
+
+[node name="BroadcastTimer" type="Timer" parent="ServerBrowser"]
+
+[node name="Panel" type="Panel" parent="ServerBrowser"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 174.0
+offset_right = 1137.0
+offset_bottom = 634.0
+
+[node name="Headings" type="HBoxContainer" parent="ServerBrowser/Panel"]
+layout_mode = 2
+offset_top = 3.0
+offset_right = 1113.0
+offset_bottom = 34.0
+
+[node name="NameHeadingLabel" type="Label" parent="ServerBrowser/Panel/Headings"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Name"
+horizontal_alignment = 1
+
+[node name="IPHeadingLabel" type="Label" parent="ServerBrowser/Panel/Headings"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "IP"
+horizontal_alignment = 1
+
+[node name="PlayerCountHeadingLabel" type="Label" parent="ServerBrowser/Panel/Headings"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Player Count"
+horizontal_alignment = 1
+
+[node name="JoinHeadingLabel" type="Label" parent="ServerBrowser/Panel/Headings"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Join
+"
+horizontal_alignment = 1
+
+[node name="LiveServersList" type="VBoxContainer" parent="ServerBrowser/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 43.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TempListenLabel" type="Label" parent="ServerBrowser"]
+layout_mode = 0
+offset_left = 959.0
+offset_top = 102.0
+offset_right = 999.0
+offset_bottom = 125.0
+text = "Bound to Listen Port: true"
+
+[connection signal="button_down" from="Buttons/HostButton" to="." method="OnHostButtonPressed"]
+[connection signal="button_down" from="Buttons/JoinGameButton" to="." method="OnJoinButtonPressed"]
+[connection signal="button_down" from="Buttons/StartGameButton" to="." method="OnStartButtonPressed"]
+[connection signal="timeout" from="ServerBrowser/BroadcastTimer" to="ServerBrowser" method="OnBroadCastTimerTimeout"]
