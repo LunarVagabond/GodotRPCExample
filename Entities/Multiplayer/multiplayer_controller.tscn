@@ -116,10 +116,10 @@ grow_vertical = 2
 
 [node name="TempListenLabel" type="Label" parent="ServerBrowser"]
 layout_mode = 0
-offset_left = 959.0
-offset_top = 102.0
-offset_right = 999.0
-offset_bottom = 125.0
+offset_left = 894.0
+offset_top = 108.0
+offset_right = 1094.0
+offset_bottom = 131.0
 text = "Bound to Listen Port: true"
 
 [connection signal="button_down" from="Buttons/HostButton" to="." method="OnHostButtonPressed"]
